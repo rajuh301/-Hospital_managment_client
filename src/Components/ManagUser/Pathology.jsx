@@ -36,33 +36,33 @@ const Pathology = () => {
 
 
     const submitReport = async () => {
-    try {
-        const reportIdToUpdate = searchData._id;
-        const reportText = modalText;
+        try {
+            const reportIdToUpdate = searchData._id;
+            const reportText = modalText;
 
-        if (reportIdToUpdate && reportText && index !== undefined) {
-            const response = await fetch(`http://localhost:5000/updateTest/${reportIdToUpdate}/${index}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data: reportText }), // Send 'data' instead of 'report'
-            });
+            if (reportIdToUpdate && reportText && index !== undefined) {
+                const response = await fetch(`http://localhost:5000/updateTest/${reportIdToUpdate}/${index}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data: reportText }), // Send 'data' instead of 'report'
+                });
 
-            if (response.ok) {
-                // Handle success
-                console.log('Report patched successfully!');
+                if (response.ok) {
+                    // Handle success
+                    console.log('Report patched successfully!');
+                } else {
+                    // Handle error
+                    console.error('Failed to patch report');
+                }
             } else {
-                // Handle error
-                console.error('Failed to patch report');
+                console.error('Missing report ID, text, or index');
             }
-        } else {
-            console.error('Missing report ID, text, or index');
+        } catch (error) {
+            console.error('Error:', error);
         }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
+    };
 
 
 
@@ -70,6 +70,15 @@ const Pathology = () => {
 
 
     // ---------------- Report submit -------------------
+
+    // ---------------------- filder Data ------------------
+
+
+
+
+
+
+    // ---------------------- filder Data ------------------
 
 
 
@@ -157,24 +166,44 @@ const Pathology = () => {
             <div className="container mx-auto py-8">
                 {searchData && searchData.test && searchData.test.length > 0 ? (
                     <div className="max-w-full mx-32 mt-10">
-                        {searchData.test.map((da, index) => (
+
+                        {searchData.test.map((da, index) =>
+
+
+                        (
+
+
+
                             <div className="text-center border py-5 shadow mt-2 rounded-lg" key={index}>
+
+
+
                                 <small className="block text-gray-500 mb-2">
                                     <small className=''>{new Date(da.timestamp).toLocaleString()}</small>
 
                                 </small>
                                 <p>{da.test}</p>
                                 <p>{da.inputValue}</p>
+                                <p>Price : {da.charge}</p>
+
                                 <button
-                                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                                    className={`font-bold py-2 px-4 rounded ${!da.report ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 cursor-not-allowed'
+                                        }`}
                                     onClick={() => {
                                         setSelectedTestId(index);
-                                        document.getElementById('my_modal_7').showModal();
+                                        if (!da.report) {
+                                            document.getElementById('my_modal_7').showModal();
+                                        }
                                     }}
+                                    disabled={da.report}
                                 >
-                                    Submit Report
+                                    {!da.report ? 'Submit Report' : 'Disabled'}
                                 </button>
+
+
+
                             </div>
+
                         ))}
                     </div>
                 ) : (

@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
         path: "/addTest",
         element: <AdminRoute><AddTest></AddTest></AdminRoute>
     },
-  
+
     {
         path: "/manageRoal",
         element: <AdminRoute><ManageRoal></ManageRoal></AdminRoute>
@@ -71,9 +71,9 @@ export const router = createBrowserRouter([
 
     {
         path: "/PatientReport",
-        element: <PatientReport></PatientReport>
+        element: <PrivateRoute><PatientReport></PatientReport></PrivateRoute>
     },
-  
+
 
 
 

@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FaAccessibleIcon, FaGoogle, FaMarsDouble, FaSearch } from 'react-icons/fa';
+import { Fa500Px, FaAccessibleIcon, FaGoogle, FaMarsDouble, FaRegCopyright, FaSearch } from 'react-icons/fa';
 import Navbar from '../Navbar/Navbar';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../provider/AuthProvider';
+import ShowReport from '../ManagUser/ShowReport';
+import ReportOnDoctorSite from './ReportOnDoctorSite';
+
 
 const Doctor = () => {
     const [searchData, setSearchData] = useState(null);
@@ -101,7 +104,7 @@ const Doctor = () => {
         const isChecked = event.target.checked;
         setSelectedTests(prevState => ({
             ...prevState,
-            [test._id]: isChecked ? { testName: test.testName, inputValue: '', price: test.price } : null,
+            [test._id]: isChecked ? { testName: test.testName, inputValue: '', price: test.price, doctor: user?.email } : null,
         }));
     };
 
@@ -196,11 +199,11 @@ const Doctor = () => {
 
                                 <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Notic</Link>
 
-                                <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>My Account</Link>
+                                <Link to='/PatientReport' className='hover:text-white hover:bg-pink-600  p-2 rounded'>My Account</Link>
 
-                                 {/* ----------------- search Bar--------------------- */}
+                                {/* ----------------- search Bar--------------------- */}
 
-                                 <form className='flex items-center' onSubmit={search}>
+                                <form className='flex items-center' onSubmit={search}>
                                     <div className="relative flex-grow">
                                         <input
                                             type="number"
@@ -228,7 +231,7 @@ const Doctor = () => {
 
                                 <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Notic</Link>
 
-                                <Link className='hover:text-white hover:bg-pink-600  p-2 rounded'>My Account</Link>
+                                <Link to='/PatientReport' className='hover:text-white hover:bg-pink-600  p-2 rounded'>My Account</Link>
 
                                 {/* ----------------- search Bar--------------------- */}
 
@@ -279,12 +282,13 @@ const Doctor = () => {
                 <div className='md:hidden'>
 
                 </div>
+
                 {
                     searchData &&
 
                     <button className='border shadow-lg rounded-lg p-5 md:text-3xl hover:bg-green-400 font-bold' onClick={() => document.getElementById('my_modal_3').showModal()}>
                         Reference Test
-                        <FaMarsDouble></FaMarsDouble>
+                        <Fa500Px></Fa500Px>
                     </button>
 
 
@@ -297,6 +301,15 @@ const Doctor = () => {
                     <button className='border shadow-lg rounded-lg p-5 md:text-3xl hover:bg-green-400 font-bold '>
                         Need Opration
                         <FaAccessibleIcon></FaAccessibleIcon>
+                    </button>
+                }
+
+                {
+                    searchData &&
+
+                    <button onClick={() => document.getElementById('my_modal_10').showModal()} className='border shadow-lg rounded-lg p-5 md:text-3xl hover:bg-green-400 font-bold '>
+                        Show Report
+                        <FaRegCopyright></FaRegCopyright>
                     </button>
                 }
 
@@ -424,7 +437,69 @@ const Doctor = () => {
             </dialog>
             {/* ----------------------------- Test area --------------------- */}
 
+
             {/* ---------------------------- Design --------------------- */}
+
+            {/* --------------------- Show Report Area ----------------------- */}
+            {/* You can open the modal using document.getElementById('ID').showModal() method */}
+
+            <dialog id="my_modal_10" className="modal">
+                <div className="modal-box w-11/12 max-w-7xl">
+                    <h3 className="font-bold text-lg">{searchData?.name}</h3>
+
+
+                    {/* -------------- main content ----------------- */}
+
+                    <div >
+                        {searchData &&
+
+                            <div className='w-595 h-842 shadow mx-5 mt-5'>
+
+
+                                <div className='mt-5 font-bold mx-10'>
+
+
+                                </div>
+                                <div className='text-center'>
+
+
+
+
+                                    {/* ----------------- Report ----------------- */}
+                                    <div>
+
+                                        {
+                                            searchData?.test?.map(da => <ReportOnDoctorSite
+                                                key={da.index}
+                                                datas={da}
+                                                pasentData={searchData}
+                                            ></ReportOnDoctorSite>)
+                                        }
+
+                                    </div>
+
+                                    {/* ----------------- Report ----------------- */}
+
+
+                                </div>
+
+
+                            </div>
+                        }
+                    </div>
+
+                    {/* -------------- main content ----------------- */}
+
+
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+            {/* --------------------- Show Report Area ----------------------- */}
 
 
 

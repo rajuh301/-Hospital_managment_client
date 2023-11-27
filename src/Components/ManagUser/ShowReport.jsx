@@ -21,55 +21,55 @@ const ShowReport = ({ datas, pasentData }) => {
     const [Tcharge, setTcharge] = useState(0)
 
     const testCharge = (charge) => {
-    Swal.fire({
-        title: 'Confirm Charge Update',
-        text: 'Are you sure you want to update the charge?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, update it!',
-        cancelButtonText: 'Cancel',
-    })
-    
-    .then((result) => {
-        if (result.isConfirmed) {
-            const numericCharge = parseFloat(charge) || 0;
-            const updatedCharge = Tcharge + numericCharge;
-            setTcharge(updatedCharge);
+        Swal.fire({
+            title: 'Confirm Charge cullected',
+            text: `Are you sure ? you cullected ${datas?.test}'s charge?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, get it!',
+            cancelButtonText: 'Cancel',
+        })
 
-            // Send POST request to server
-            fetch('http://localhost:5000/testCharge', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ charge: updatedCharge }),
-            })
-                .then(response => {
-                    // Handle response if needed
+            .then((result) => {
+                if (result.isConfirmed) {
+                    const numericCharge = parseFloat(charge) || 0;
+                    const updatedCharge = Tcharge + numericCharge;
+                    setTcharge(updatedCharge);
+
+                    // Send POST request to server
+                    fetch('http://localhost:5000/testCharge', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ charge: updatedCharge , pasentID : pasentData.patienID, testName : datas?.test }),
+                    })
+                        .then(response => {
+                       
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Charge Cullected',
+                                text: `${datas?.charge} has been successfully cullected!` ,
+                            });
+                        })
+                        .catch(error => {
+             
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                            });
+                        });
+                } else {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Charge Updated',
-                        text: 'The charge has been successfully updated!',
+                        icon: 'info',
+                        title: 'Update Cancelled',
+                        text: 'The charge update has been cancelled.',
                     });
-                })
-                .catch(error => {
-                    // Handle errors if any
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                    });
-                });
-        } else {
-            Swal.fire({
-                icon: 'info',
-                title: 'Update Cancelled',
-                text: 'The charge update has been cancelled.',
+                }
             });
-        }
-    });
-};
+    };
 
 
 
@@ -137,7 +137,7 @@ const ShowReport = ({ datas, pasentData }) => {
 
 
                     <div className='mt-20 mx-10 font-bold'>
-                        <p>{datas?.report[0]}</p>
+                        <p>{datas?.report}</p>
                     </div>
 
 
@@ -147,14 +147,13 @@ const ShowReport = ({ datas, pasentData }) => {
             {
                 datas &&
 
-                <div className='text-right text-3xl mx-5'>
-                    <small>Charge: {datas.charge}</small>
+                <div className='text-right text-3xl bg-green-400 mb-10 border shadow'>
+                    <small className='mx-5'>Charge: {datas.charge}</small>
 
-                    <button className='btn' onClick={() => testCharge(datas?.charge)}>
+                    <button className='btn btn-primary mx-5' onClick={() => testCharge(datas?.charge)}>
                         <FaCashRegister className='text-3xl'></FaCashRegister>
                     </button>
-                    <button className='btn' onClick={handlePrint}>
-
+                    <button className='btn btn-primary mx-5' onClick={handlePrint}>
                         <FaPrint className='text-3xl'></FaPrint>
                     </button>
 

@@ -126,8 +126,6 @@ const PatientReport = () => {
 
             {/* ------------------------ Main Contant ----------------------- */}
             <div >
-
-
                 {searchData &&
 
                     <div className='w-595 h-842 border shadow mx-5 mt-5'>

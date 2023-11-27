@@ -23,6 +23,33 @@ const AdminAccount = () => {
 
 
   // ------------------------------- Cash Section--------------------
+
+
+
+  // --------------------------- add test charge ------------------------
+  const [testMany, setTestMany] = useState([])
+  useEffect(() => {
+    fetch('http://localhost:5000/testCharge')
+      .then((res) => res.json())
+      .then((data) => setTestMany(data));
+  }, []);
+
+
+  let sumTest = testMany
+    .map(da => parseInt(da.charge))
+    .filter(value => !isNaN(value))
+    .reduce((acc, val) => acc + val, 0);
+
+
+  // --------------------------- add test charge ------------------------
+
+
+
+
+
+
+
+
   const [cashData, setCashData] = useState([])
   useEffect(() => {
     fetch('http://localhost:5000/cashout')
@@ -48,7 +75,7 @@ const AdminAccount = () => {
 
   const showData = sum - sum2
 
-
+  const showDataUpdate = showData + sumTest
 
   // -------------------------
 
@@ -240,7 +267,7 @@ const AdminAccount = () => {
 
       <div className='w-3/3 h-48 shadow mt-10 mx-10 border text-center rounded'>
 
-        <p className='text-3xl p-5 text-center font-bold'>Main Blance: {showData}</p>
+        <p className='text-3xl p-5 text-center font-bold'>Main Blance: {showDataUpdate}</p>
 
         <form onSubmit={handleSubmit}>
           <input
