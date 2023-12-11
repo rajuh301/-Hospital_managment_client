@@ -15,10 +15,21 @@ const PatientReport = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
-            .then((res) => res.json())
-            .then((data) => setDatas(data));
+        const fetchData = () => {
+            fetch('http://localhost:5000/pasent')
+                .then((res) => res.json())
+                .then((data) => setDatas(data))
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        fetchData();
+        const intervalId = setInterval(fetchData, 2000);
+        return () => clearInterval(intervalId);
     }, []);
+
+
 
     const search = (e) => {
         e.preventDefault();
@@ -36,14 +47,55 @@ const PatientReport = () => {
 
 
 
-    // -------------------------- test map function ----------------
+    // -------------------------- Opration map function ----------------
+    const handleSubmit = async (event, da, index) => {
+        event.preventDefault();
+
+        const inputValue = event.target.elements.inputAmount.value;
+
+        const inputData = {
+            index: index,
+            inputAmount: inputValue,
+
+        };
+
+        try {
+            const response = await fetch(`http://localhost:5000/updateOperation/${searchData._id}/${index}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(inputData),
+            });
+
+
+            if (response.ok) {
+      
+         
+                
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed to update data",
+                    text: "Please try again later",
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "An error occurred",
+                text: "Please try again later",
+            });
+            console.error('Error:', error);
+        }
+    };
 
 
 
 
 
 
-    // -------------------------- test map function ----------------
+    // -------------------------- Opration map function ----------------
 
 
 
@@ -110,6 +162,13 @@ const PatientReport = () => {
 
                                 {/* ----------------- search Bar--------------------- */}
 
+                                {searchData &&
+                                    <button onClick={() => document.getElementById('my_modal_4').showModal()} className='hover:text-white hover:bg-pink-600  p-2 rounded'>Operation</button>
+                                }
+
+                                {searchData &&
+                                    <button onClick={() => document.getElementById('my_modal_5').showModal()} className='hover:text-white hover:bg-pink-600  p-2 rounded'>Prescription</button>
+                                }
 
                             </div>
 
@@ -129,15 +188,15 @@ const PatientReport = () => {
                 {searchData &&
 
                     <div className='w-595 h-842 border shadow mx-5 mt-5'>
-                        
+
 
                         <div className='mt-5 font-bold mx-10'>
-                          
+
 
                         </div>
                         <div className='text-center'>
-                            
-       
+
+
 
 
                             {/* ----------------- Report ----------------- */}
@@ -148,7 +207,7 @@ const PatientReport = () => {
                                     searchData?.test?.map(da => <ShowReport
                                         key={da.index}
                                         datas={da}
-                                        pasentData = {searchData}
+                                        pasentData={searchData}
                                     ></ShowReport>)
                                 }
 
@@ -166,7 +225,89 @@ const PatientReport = () => {
                 }
             </div>
 
-            
+            {/* -------------------------------------- Info -------------------------------- */}
+            <dialog id="my_modal_4" className="modal">
+                <div className="modal-box w-11/12 max-w-full">
+                    <h3 className="font-bold text-lg">{searchData?.name}</h3>
+
+
+                    {/* ------------------------- Main Content ------------------- */}
+
+                    <table className="min-w-full shadow-slate-600 text-left">
+                        <thead>
+                            <tr className="bg-green-200">
+                                <th className="px-6 py-3">Timestamp</th>
+                                <th className="px-6 py-3">Doctor</th>
+                                <th className="px-6 py-3">Operation</th>
+                                <th className="px-6 py-3">Input Value</th>
+                                <th className="px-2 py-3">Input Amount</th>
+                                <th className="px-2 py-3">Submit</th>
+                            </tr>
+                        </thead>
+                        <tbody className='bg-slate-200'>
+                            {searchData?.operation?.map((da, index) => (
+                                <tr key={index}>
+                                    <td className="border px-6 py-4">{new Date(da.timestamp).toLocaleString()}</td>
+                                    <td className="border px-6 py-4">{da.doctor}</td>
+                                    <td className="border px-6 py-4">{da.operation}</td>
+                                    <td className="border px-6 py-4">{da.inputValue}</td>
+                                    <td className="border">
+                                        <form onSubmit={(event) => handleSubmit(event, da, index)}>
+                                            <input className='w-28 border shadow bg-slate-700 text-white rounded-md py-1 px-2' type="number" name="inputAmount"
+                                                disabled={da.price !== undefined}
+
+                                            />
+
+
+                                            <button type="submit" className={`ml-2 font-bold px-4 rounded focus:outline-none focus:shadow-outline ${da.price !== undefined ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'
+                                                }`}
+                                                disabled={da.price !== undefined} >
+                                                {da.price !== undefined ? 'Complete' : 'Submit'}
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+
+
+                    {/* ------------------------- Main Content ------------------- */}
+
+
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+            {/* -------------------------------------------------------------------------------- */}
+            <dialog id="my_modal_5" className="modal">
+                <div className="modal-box w-11/12 max-w-5xl">
+                    <h3 className="font-bold text-lg">{searchData?.name}</h3>
+
+
+                    {/* ------------------------- Main Content ------------------- */}
+                    <form action="">
+
+                    </form>
+                    {/* ------------------------- Main Content ------------------- */}
+
+
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+            {/* -------------------------------------- Info -------------------------------- */}
+
+
         </div>
     );
 };

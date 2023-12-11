@@ -16,6 +16,14 @@ import AddDoctors from '../Components/Accounts/AddDoctors';
 import ManageRoal from '../Components/ManagUser/ManageRoal';
 import AddTest from '../Components/ManagUser/AddTest';
 import PatientReport from '../Components/ManagUser/PatientReport';
+import RegAccount from '../Components/ManagUser/RegAccount';
+import DisplaySerial from '../Components/ManagUser/DisplaySerial';
+import RegisterRoute from './RegisterRoute';
+import Requisition from '../Components/ManagUser/Requisition';
+import PathologyRoute from './PathologyRoute';
+import RequisitionInAdmin from '../Components/ManagUser/RequisitionInAdmin';
+import RegRequisition from '../Components/ManagUser/RegRequisition';
+import ShowRequistion from '../Components/ManagUser/ShowRequistion';
 
 
 export const router = createBrowserRouter([
@@ -72,6 +80,36 @@ export const router = createBrowserRouter([
     {
         path: "/PatientReport",
         element: <PrivateRoute><PatientReport></PatientReport></PrivateRoute>
+    },
+
+    {
+        path: "/regAccount",
+        element: <RegisterRoute><RegAccount></RegAccount></RegisterRoute>
+    },
+
+    {
+        path: "/regRequisition",
+        element: <RegisterRoute><RegRequisition></RegRequisition></RegisterRoute>
+    },
+    
+    {
+        path: "/requisition",
+        element: <PathologyRoute><Requisition></Requisition></PathologyRoute>
+    },
+
+    {
+        path: "/showRequisition",
+        element: <PathologyRoute><ShowRequistion></ShowRequistion></PathologyRoute>
+    },
+
+    {
+        path: "/displayCount",
+        element:<DisplaySerial></DisplaySerial> 
+    },
+
+    {
+        path: "/requestRequisition",
+        element:<AdminRoute><RequisitionInAdmin></RequisitionInAdmin></AdminRoute>
     },
 
 

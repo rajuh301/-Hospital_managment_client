@@ -7,20 +7,28 @@ const AdminAccount = () => {
   const [datas, setDatas] = useState([]);
   const [total, setTotal] = useState(0);
 
-
   useEffect(() => {
-    fetch('http://localhost:5000/pasent')
-      .then((res) => res.json())
-      .then((data) => setDatas(data));
+    const fetchData = () => {
+      fetch('http://localhost:5000/pasent')
+        .then((res) => res.json())
+        .then((data) => setDatas(data))
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
 
+
   let sum = datas
-    .map(da => parseInt(da.charge))
+    .flatMap(data => data.charge)
+    .map(charge => parseInt(charge))
     .filter(value => !isNaN(value))
     .reduce((acc, val) => acc + val, 0);
-
-
 
   // ------------------------------- Cash Section--------------------
 
@@ -28,10 +36,20 @@ const AdminAccount = () => {
 
   // --------------------------- add test charge ------------------------
   const [testMany, setTestMany] = useState([])
+
   useEffect(() => {
-    fetch('http://localhost:5000/testCharge')
-      .then((res) => res.json())
-      .then((data) => setTestMany(data));
+    const fetchData = () => {
+      fetch('http://localhost:5000/testCharge')
+        .then((res) => res.json())
+        .then((data) => setTestMany(data))
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
 
@@ -41,21 +59,35 @@ const AdminAccount = () => {
     .reduce((acc, val) => acc + val, 0);
 
 
+    let sumOperation = datas
+    .flatMap(item => item?.operation?.map(op => parseInt(op.price)))
+    .filter(value => !isNaN(value))
+    .reduce((acc, val) => acc + val, 0);
+  
+
+  
   // --------------------------- add test charge ------------------------
 
 
 
 
-
-
-
-
   const [cashData, setCashData] = useState([])
+
   useEffect(() => {
-    fetch('http://localhost:5000/cashout')
-      .then((res) => res.json())
-      .then((data) => setCashData(data));
+    const fetchData = () => {
+      fetch('http://localhost:5000/cashout')
+        .then((res) => res.json())
+        .then((data) => setCashData(data))
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 5000);
+    return () => clearInterval(intervalId);
   }, []);
+
 
   const lastOut = cashData[cashData.length - 1];
 
@@ -71,11 +103,9 @@ const AdminAccount = () => {
     .reduce((acc, val) => acc + val, 0);
 
 
-  console.log(sum2)
-
   const showData = sum - sum2
 
-  const showDataUpdate = showData + sumTest
+  const showDataUpdate = showData + sumTest + sumOperation
 
   // -------------------------
 
@@ -129,7 +159,7 @@ const AdminAccount = () => {
             icon: "success"
           });
           console.log('Form data submitted successfully!');
-          window.location.reload();
+          // window.location.reload();
         } else {
           console.error('Form submission failed!');
         }
@@ -286,7 +316,6 @@ const AdminAccount = () => {
 
 
       <button onClick={() => document.getElementById('my_modal_5').showModal()}>
-
         <div className='w-3/3 h-48 shadow mt-10 mx-10 border text-center rounded'>
           <p className='text-3xl font-bold p-5'>Last Cash Out</p>
           <p className='text-3xl p-5 text-center font-bold'>{lastOut?.inputText}</p>

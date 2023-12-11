@@ -43,9 +43,9 @@ const ReportOnDoctorSite = ({ datas, pasentData }) => {
                 <div className='w-full h-[842px] py-10'>
 
                     <div className='text-right px-2 font-bold'>
+                        <p>Doctor : {datas?.doctor}</p>
                         <p>Pashent name : {pasentData?.name}</p>
                         <p>Pashent age : {pasentData?.age}</p>
-
                     </div>
 
                     <p className='mt-10 text-3xl text-center font-bold'>Reports</p>
@@ -57,6 +57,7 @@ const ReportOnDoctorSite = ({ datas, pasentData }) => {
                         <p>Report Name : {datas?.test}</p>
                         <p>Report description : {datas?.inputValue}</p>
                         <p>Report Date: {datas?.timestamp ? new Date(datas.timestamp).toLocaleString() : ''}</p>
+                      
                     </div>
 
 

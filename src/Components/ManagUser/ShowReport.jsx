@@ -42,18 +42,18 @@ const ShowReport = ({ datas, pasentData }) => {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ charge: updatedCharge , pasentID : pasentData.patienID, testName : datas?.test }),
+                        body: JSON.stringify({ charge: updatedCharge, pasentID: pasentData.patienID, testName: datas?.test }),
                     })
                         .then(response => {
-                       
+
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Charge Cullected',
-                                text: `${datas?.charge} has been successfully cullected!` ,
+                                text: `${datas?.charge} has been successfully cullected!`,
                             });
                         })
                         .catch(error => {
-             
+
                             console.error('Error:', error);
                             Swal.fire({
                                 icon: 'error',
@@ -113,6 +113,7 @@ const ShowReport = ({ datas, pasentData }) => {
                     <div className='text-right px-2 font-bold'>
                         <p>Pashent name : {pasentData?.name}</p>
                         <p>Pashent age : {pasentData?.age}</p>
+                        <p>Doctor : {datas?.doctor}</p>
 
                     </div>
 

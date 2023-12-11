@@ -97,7 +97,7 @@ const Pathology = () => {
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
 
 
-                                <Link to='/account' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Account</Link>
+                                <Link to='/requisition' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Requisition</Link>
                                 {/* ----------------- search Bar--------------------- */}
 
                                 <form className='flex items-center' onSubmit={search}>
@@ -118,6 +118,7 @@ const Pathology = () => {
                                 {/* ----------------- search Bar--------------------- */}
 
                             </ul>
+
                         </div>
                         <Navbar />
                     </div>
@@ -146,7 +147,7 @@ const Pathology = () => {
 
                                 {/* ----------------- search Bar--------------------- */}
 
-
+                                <Link to='/requisition' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Requisition</Link>
                             </div>
 
                         </ul>

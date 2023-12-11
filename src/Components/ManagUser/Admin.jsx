@@ -24,6 +24,8 @@ const Admin = () => {
                                 
                                 <Link to='/manageRoal' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Manage Roal</Link>
 
+                                <Link to='/requestRequisition' className='hover:text-white hover:bg-pink-600 p-2 rounded'>Requisition</Link>
+
                                 <Link to='/account' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Account</Link>
 
                             </ul>
@@ -42,6 +44,8 @@ const Admin = () => {
                                 <Link to='/addTest' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Add Test</Link>
 
                                 <Link to='/manageRoal' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Manage Roal</Link>
+
+                                <Link to='/requestRequisition' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Requisition</Link>
 
                                 <Link to='/account' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Account</Link>
 

@@ -15,6 +15,7 @@ const Doctor = () => {
     const { user } = useContext(AuthContext)
 
 
+
     useEffect(() => {
         fetch('http://localhost:5000/pasent')
             .then((res) => res.json())
@@ -58,7 +59,7 @@ const Doctor = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ data: Prediction }),
+                body: JSON.stringify({ data: Prediction, doctor: user.displayName }),
             })
             Swal.fire({
                 position: 'top-end',
@@ -129,7 +130,7 @@ const Doctor = () => {
                 testName: test.testName,
                 price: test.price,
                 inputValue: test.inputValue,
-
+                doctor: user?.displayName,
             }));
 
 
@@ -139,7 +140,7 @@ const Doctor = () => {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Add any other necessary headers
+
                     },
                     body: JSON.stringify(formattedTests),
                 });
@@ -161,7 +162,48 @@ const Doctor = () => {
         }
     };
 
+    // ------------------------ Operation Area --------------------
 
+    const [operationName, setOperationName] = useState('');
+    const [description, setDescription] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const submitData = {
+            operationName: operationName,
+            description: description,
+            doctor: user.displayName,
+        };
+    
+        try {
+            const response = await fetch(`http://localhost:5000/opration/${searchData._id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submitData),
+            });
+    
+            if (response.ok) {
+                // Handle success
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Operation updated successfully!",
+                    icon: "success"
+                });
+                window.location.reload();
+            } else {
+                // Handle other response statuses if needed
+                console.error('Failed to update operation');
+            }
+        } catch (error) {
+            // Handle fetch error
+            console.error('Error:', error);
+        }
+    };
+    
+    // ------------------------ Operation Area --------------------
 
 
     // ------------------------ Submitd Area ---------------------
@@ -291,14 +333,12 @@ const Doctor = () => {
                         <Fa500Px></Fa500Px>
                     </button>
 
-
-
                 }
 
                 {
                     searchData &&
 
-                    <button className='border shadow-lg rounded-lg p-5 md:text-3xl hover:bg-green-400 font-bold '>
+                    <button className='border shadow-lg rounded-lg p-5 md:text-3xl hover:bg-green-400 font-bold' onClick={() => document.getElementById('my_modal_11').showModal()}>
                         Need Opration
                         <FaAccessibleIcon></FaAccessibleIcon>
                     </button>
@@ -320,7 +360,10 @@ const Doctor = () => {
 
                         <div className='border shadow-lg rounded-lg p-5 font-bold '>
                             <div className=' gap-5'>
-                                <small>Date : {searchData?.date}</small>
+
+                                <small>Date : {searchData && searchData.date ? new Date(searchData.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}</small>
+
+
 
                                 <small className='text-start'>
                                     <p>Patien Name : {searchData?.name}</p>
@@ -437,11 +480,76 @@ const Doctor = () => {
             </dialog>
             {/* ----------------------------- Test area --------------------- */}
 
+            {/* ----------------------------- Opration area --------------------- */}
+
+            <dialog id="my_modal_11" className="modal">
+                <div className="modal-box w-11/12 max-w-5xl">
+                    <h3 className="font-bold text-lg">{searchData?.name}</h3>
+
+
+
+                    {/* ------------------------- Main content --------------------- */}
+                    <div className="max-w-md mx-auto">
+                        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                            <div className="mb-4">
+                                <label htmlFor="operationName" className="block text-gray-700 text-sm font-bold mb-2">
+                                    Operation Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="operationName"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter Operation Name"
+                                    value={operationName}
+                                    onChange={(e) => setOperationName(e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+                                    Description
+                                </label>
+                                <textarea
+                                    id="description"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter Description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                ></textarea>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    {/* ------------------------- Main content --------------------- */}
+
+
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+            {/* ----------------------------- Opration area --------------------- */}
+
+
+
+
+
+
+
 
             {/* ---------------------------- Design --------------------- */}
 
             {/* --------------------- Show Report Area ----------------------- */}
-            {/* You can open the modal using document.getElementById('ID').showModal() method */}
+
 
             <dialog id="my_modal_10" className="modal">
                 <div className="modal-box w-11/12 max-w-7xl">
