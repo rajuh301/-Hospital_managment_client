@@ -9,7 +9,7 @@ const AdminAccount = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://localhost:5000/pasent')
+      fetch('https://hospital-managment-server.vercel.app/pasent')
         .then((res) => res.json())
         .then((data) => setDatas(data))
         .catch((error) => {
@@ -39,7 +39,7 @@ const AdminAccount = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://localhost:5000/testCharge')
+      fetch('https://hospital-managment-server.vercel.app/testCharge')
         .then((res) => res.json())
         .then((data) => setTestMany(data))
         .catch((error) => {
@@ -59,13 +59,13 @@ const AdminAccount = () => {
     .reduce((acc, val) => acc + val, 0);
 
 
-    let sumOperation = datas
+  let sumOperation = datas
     .flatMap(item => item?.operation?.map(op => parseInt(op.price)))
     .filter(value => !isNaN(value))
     .reduce((acc, val) => acc + val, 0);
-  
 
-  
+
+
   // --------------------------- add test charge ------------------------
 
 
@@ -75,7 +75,7 @@ const AdminAccount = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://localhost:5000/cashout')
+      fetch('https://hospital-managment-server.vercel.app/cashout')
         .then((res) => res.json())
         .then((data) => setCashData(data))
         .catch((error) => {
@@ -144,7 +144,7 @@ const AdminAccount = () => {
       }
 
       if (result.isConfirmed) {
-        const response = await fetch('http://localhost:5000/cashout', {
+        const response = await fetch('https://hospital-managment-server.vercel.app/cashout', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ const AdminAccount = () => {
     const doctorName = selectedDoctorData.name;
 
 
-    const url = 'http://localhost:5000/cashout';
+    const url = 'https://hospital-managment-server.vercel.app/cashout';
 
 
     const dataToSend = {
@@ -271,7 +271,7 @@ const AdminAccount = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:5000/doctors')
+    fetch('https://hospital-managment-server.vercel.app/doctors')
       .then((res) => res.json())
       .then((data) => setDoctors(data));
   }, []);
@@ -295,8 +295,7 @@ const AdminAccount = () => {
   return (
     <div className='md:grid grid-cols-3 gap-10'>
 
-      <div className='w-3/3 h-48 shadow mt-10 mx-10 border text-center rounded'>
-
+      <div className='md:w-3/3 md:h-48 shadow mt-10 mx-10 border text-center rounded'>
         <p className='text-3xl p-5 text-center font-bold'>Main Blance: {showDataUpdate}</p>
 
         <form onSubmit={handleSubmit}>
@@ -315,13 +314,16 @@ const AdminAccount = () => {
       </div>
 
 
-      <button onClick={() => document.getElementById('my_modal_5').showModal()}>
-        <div className='w-3/3 h-48 shadow mt-10 mx-10 border text-center rounded'>
-          <p className='text-3xl font-bold p-5'>Last Cash Out</p>
-          <p className='text-3xl p-5 text-center font-bold'>{lastOut?.inputText}</p>
-          <p>{formattedDateTime}</p>
-        </div>
-      </button>
+      <div className='md:w-3/3 md:h-48 shadow mt-10 mx-10 border text-center rounded'>
+        <button onClick={() => document.getElementById('my_modal_5').showModal()}>
+          <div>
+            <p className='text-3xl font-bold p-5'>Last Cash Out</p>
+            <p className='text-3xl p-5 text-center font-bold'>{lastOut?.inputText}</p>
+            <p>{formattedDateTime}</p>
+          </div>
+        </button>
+
+      </div>
 
 
       <button className="btn w-3/3 h-48 shadow mt-10 mx-10 border text-center rounded" onClick={() => document.getElementById('my_modal_4').showModal()}>

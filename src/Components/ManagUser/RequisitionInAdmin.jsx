@@ -7,7 +7,7 @@ const RequisitionInAdmin = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/requisition')
+            fetch('https://hospital-managment-server.vercel.app/requisition')
                 .then((res) => res.json())
                 .then((data) => setRequisition(data))
                 .catch((error) => {
@@ -43,7 +43,7 @@ const RequisitionInAdmin = () => {
                     status: 'accepted',
                 };
 
-                fetch(`http://localhost:5000/requisition/${_id}`, {
+                fetch(`https://hospital-managment-server.vercel.app/requisition/${_id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ const RequisitionInAdmin = () => {
                     status: 'reject',
                 };
 
-                fetch(`http://localhost:5000/requisition/${_id}`, {
+                fetch(`https://hospital-managment-server.vercel.app/requisition/${_id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ const RequisitionInAdmin = () => {
 
     return (
         <div>
-            <div className='flex mt-20 justify-center'>
+            <div className='md:flex mt-20 justify-center'>
 
 
                 <div className='w-40 border h-20 rounded bg-pink-500 text-2xl text-center m-10 hover:bg-green-600 text-white'>

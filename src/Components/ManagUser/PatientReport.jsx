@@ -16,7 +16,7 @@ const PatientReport = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/pasent')
+            fetch('https://hospital-managment-server.vercel.app/pasent')
                 .then((res) => res.json())
                 .then((data) => setDatas(data))
                 .catch((error) => {
@@ -60,7 +60,7 @@ const PatientReport = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:5000/updateOperation/${searchData._id}/${index}`, {
+            const response = await fetch(`https://hospital-managment-server.vercel.app/updateOperation/${searchData._id}/${index}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const PatientReport = () => {
             {/* -------------------- Navbar-------------------------- */}
 
             <div>
-                <div className="navbar bg-green-400">
+                <div className="navbar bg-h-14 bg-gradient-to-r from-cyan-500 to-blue-500">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost lg:hidden">

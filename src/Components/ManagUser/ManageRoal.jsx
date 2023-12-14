@@ -8,7 +8,7 @@ const ManageRoal = () => {
     const [datas, setDatas] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/users')
+        fetch('https://hospital-managment-server.vercel.app/users')
             .then(res => res.json())
             .then(data => setDatas(data))
     }, [])
@@ -28,7 +28,7 @@ const ManageRoal = () => {
         }).then(result => {
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:5000/users/${userId}`, {
+                fetch(`https://hospital-managment-server.vercel.app/users/${userId}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

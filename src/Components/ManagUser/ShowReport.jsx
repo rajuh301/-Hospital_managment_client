@@ -37,7 +37,7 @@ const ShowReport = ({ datas, pasentData }) => {
                     setTcharge(updatedCharge);
 
                     // Send POST request to server
-                    fetch('http://localhost:5000/testCharge', {
+                    fetch('https://hospital-managment-server.vercel.app/testCharge', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

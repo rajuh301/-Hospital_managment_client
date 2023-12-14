@@ -6,7 +6,7 @@ const DisplaySerial = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/pasent')
+            fetch('https://hospital-managment-server.vercel.app/pasent')
                 .then((res) => res.json())
                 .then((data) => setDisplayData(data))
                 .catch((error) => {
@@ -42,19 +42,50 @@ const DisplaySerial = () => {
         const dateWithoutTime = da.date.slice(0, 10); // Extracting the date part from ISO string
         return dateWithoutTime === todayDate;
     });
-    console.log(findDate);
+    // console.log(findDate);
+
+
+
+    const filteredPredictions = findDate?.prediction?.filter(prediction => {
+        if (prediction.timestamp) {
+            const predictionDate = new Date(prediction.timestamp).toISOString().slice(0, 10);
+            return predictionDate === todayDate;
+        }
+        return false;
+    });
+    
+    // filteredPredictions will contain only the predictions with today's date
+    console.log(filteredPredictions);
+    
 
 
 
 
     return (
         <div>
-          
 
-          {
-            findDate.map(da => <p>{da.patienID}</p>)
-          }
-          
+
+            {
+
+
+
+                findDate.map(da =>
+
+                    <div className='flex gap-5 text-3xl font-bold justify-center mt-5 text-center'>
+                        <p>
+                            কার্ড নম্বর
+                        </p>
+                        <p>
+                            {da.patienID}
+                        </p>
+                        <p>
+                        ডাক্তারের চেম্বারে আসেন
+                          
+                        </p>
+
+                    </div>)
+            }
+
         </div>
     );
 };

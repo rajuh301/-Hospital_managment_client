@@ -6,7 +6,7 @@ const ShowPatienData = () => {
     const [download, setDownload] = useState()
     const { id } = useParams();
     useEffect(() => {
-        fetch(`http://localhost:5000/pasent`)
+        fetch(`https://hospital-managment-server.vercel.app/pasent`)
             .then(res => res.json())
             .then(data => setDownload(data))
     }, [])

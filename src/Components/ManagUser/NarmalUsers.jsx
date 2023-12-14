@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // const [datas, setDatas] = useState([])
 
-// fetch('http://localhost:5000/pasent')
+// fetch('https://hospital-managment-server.vercel.app/pasent')
 //     .then(res => res.json())
 //     .then(data => setDatas(data))
 

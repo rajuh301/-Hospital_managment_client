@@ -8,7 +8,7 @@ const RegAccount = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/cashout')
+            fetch('https://hospital-managment-server.vercel.app/cashout')
                 .then((res) => res.json())
                 .then((data) => setCashData(data))
                 .catch((error) => {
@@ -50,7 +50,7 @@ const RegAccount = () => {
             {/* -------------------- Navbar-------------------------- */}
 
             <div>
-                <div className="navbar bg-green-400">
+                <div className="navbar bg-h-14 bg-gradient-to-r from-cyan-500 to-blue-500">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost lg:hidden">

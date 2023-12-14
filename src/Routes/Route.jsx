@@ -24,6 +24,7 @@ import PathologyRoute from './PathologyRoute';
 import RequisitionInAdmin from '../Components/ManagUser/RequisitionInAdmin';
 import RegRequisition from '../Components/ManagUser/RegRequisition';
 import ShowRequistion from '../Components/ManagUser/ShowRequistion';
+import ShowQrCodeData from '../Components/ManagUser/ShowQrCodeData';
 
 
 export const router = createBrowserRouter([
@@ -105,6 +106,11 @@ export const router = createBrowserRouter([
     {
         path: "/displayCount",
         element:<DisplaySerial></DisplaySerial> 
+    },
+
+    {
+        path: "/https://rainbow-rabanadas-e2c23b.netlify.app/viewData/:id",
+        element:<ShowQrCodeData></ShowQrCodeData>
     },
 
     {

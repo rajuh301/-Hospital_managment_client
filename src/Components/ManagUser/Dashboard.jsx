@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import useAdmin from '../../hooks/useAdmin';
 import useRegister from '../../hooks/useRegister';
@@ -57,7 +56,7 @@ const Dashboard = () => {
             charge: charge,
         };
 
-        fetch('http://localhost:5000/addPasent', {
+        fetch('https://hospital-managment-server.vercel.app/addPasent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +77,7 @@ const Dashboard = () => {
     const [patientId, setPatientId] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
+        fetch('https://hospital-managment-server.vercel.app/pasent')
             .then((res) => res.json())
             .then((data) => setDatas(data));
     }, []);
@@ -108,7 +107,7 @@ const Dashboard = () => {
             charge: chargeDoctor
         };
 
-        fetch(`http://localhost:5000/addPasent/${_id}`, {
+        fetch(`https://hospital-managment-server.vercel.app/addPasent/${_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -134,7 +133,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/pasent')
+            fetch('https://hospital-managment-server.vercel.app/pasent')
                 .then((res) => res.json())
                 .then((data) => setDatasss(data))
                 .catch((error) => {
@@ -158,11 +157,11 @@ const Dashboard = () => {
         .reduce((acc, val) => acc + val, 0);
 
 
-        let sumOperation = datas
+    let sumOperation = datas
         .flatMap(item => item?.operation?.map(op => parseInt(op.price)))
         .filter(value => !isNaN(value))
         .reduce((acc, val) => acc + val, 0);
-      
+
     // ------------------------------- Cash Section--------------------
 
 
@@ -171,7 +170,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/testCharge')
+            fetch('https://hospital-managment-server.vercel.app/testCharge')
                 .then((res) => res.json())
                 .then((data) => setTestMany(data))
                 .catch((error) => {
@@ -199,7 +198,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/cashout')
+            fetch('https://hospital-managment-server.vercel.app/cashout')
                 .then((res) => res.json())
                 .then((data) => setCashData(data))
                 .catch((error) => {
@@ -241,7 +240,7 @@ const Dashboard = () => {
     const [doctors, setDoctors] = useState()
 
     useEffect(() => {
-        fetch('http://localhost:5000/doctors')
+        fetch('https://hospital-managment-server.vercel.app/doctors')
             .then(res => res.json())
             .then(data => setDoctors(data))
             .catch(error => console.error("Error fetching data: ", error));
@@ -269,7 +268,7 @@ const Dashboard = () => {
                             {/* -------------------- Navbar-------------------------- */}
 
                             <div>
-                                <div className="navbar bg-green-400">
+                                <div className="navbar bg-h-14 bg-gradient-to-r from-cyan-500 to-blue-500">
                                     <div className="navbar-start">
                                         <div className="dropdown">
                                             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -277,7 +276,7 @@ const Dashboard = () => {
                                             </label>
                                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
 
-                                            <p>{showDataUpdate}</p>
+                                                <p>{showDataUpdate}</p>
 
                                                 <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Home</Link>
 
@@ -298,7 +297,7 @@ const Dashboard = () => {
 
                                             <div className='flex gap-5 font-bold'>
 
-                                            <p className='border text-white bg-pink-600  p-2 rounded'>{showDataUpdate} Tk</p>
+                                                <p className='border text-white bg-pink-600  p-2 rounded'>{showDataUpdate} Tk</p>
 
                                                 <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Home</Link>
 
@@ -315,7 +314,8 @@ const Dashboard = () => {
                                         </ul>
                                     </div>
                                     <div className="navbar-end">
-                                        <a className="btn">Button</a>
+                                        <p className='font-bold px-5'>Register Area</p>
+                                        <a className="btn">Action</a>
                                     </div>
                                 </div>
                             </div>
@@ -328,7 +328,7 @@ const Dashboard = () => {
 
 
                             </div>
-                            <div className="max-w-md mx-auto p-6 absolute md:top-20 top-0 md:left-[38%] left-6 md:mt-0 mt-20 bg-gradient-to-r opacity-96 rounded-lg shadow-lg text-black">
+                            <div className="max-w-md mx-auto p-6 absolute md:top-20 top-0 md:left-[38%] left-2 md:mt-0 mt-20 bg-gradient-to-r opacity-96 rounded-lg shadow-lg text-black">
                                 <h1 className="text-white text-2xl font-semibold mb-4">Patient Registration Form</h1>
 
 
@@ -393,7 +393,7 @@ const Dashboard = () => {
                                         >
                                             <option value="Select One">Select One</option>
                                             <option value="New Patient">New Patient</option>
-                                            <option value="Returning Patient">Returning Patient</option>
+                                            {/* <option value="Returning Patient">Returning Patient</option> */}
                                             <option value="Emergency">Emergency</option>
                                         </select>
                                     </div>
@@ -419,7 +419,7 @@ const Dashboard = () => {
 
 
                                 {/* ---------------- Returning pation -------------- */}
-                                <div className='absolute top-[575px] left-44'>
+                                <div className='md:absolute top-[580px] left-44'>
                                     <button onClick={() => document.getElementById('my_modal_1').showModal()}
                                         type="submit"
                                         className="bg-green-500 text-white p-2 rounded hover:bg-green-600"

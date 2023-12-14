@@ -29,7 +29,7 @@ const Register = () => {
                 console.log(user);
 
                 const saveUser = { name: name, email: email, roal: 'user' };
-                fetch("http://localhost:5000/users", {
+                fetch("https://hospital-managment-server.vercel.app/users", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",

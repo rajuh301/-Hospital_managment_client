@@ -17,10 +17,20 @@ const Doctor = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
-            .then((res) => res.json())
-            .then((data) => setDatas(data));
+        const fetchData = () => {
+            fetch('https://hospital-managment-server.vercel.app/pasent')
+                .then((res) => res.json())
+                .then((data) => setDatas(data))
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        fetchData();
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
     }, []);
+
 
     const search = (e) => {
         e.preventDefault();
@@ -50,31 +60,47 @@ const Doctor = () => {
     }
 
 
-    const makePrediction = (e) => {
-        setPrediction(e.target.value)
+    const makePrediction = async (e) => {
+        e.preventDefault();
         if (searchData && searchData._id) {
+            try {
+                const response = await fetch(`https://hospital-managment-server.vercel.app/pasent/${searchData._id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data: Prediction, doctor: user.displayName }),
+                });
+    
+                if (response.ok) {
+                    // If the prediction was successfully updated, fetch the updated data
+                    const updatedResponse = await fetch('https://hospital-managment-server.vercel.app/pasent');
+                    if (updatedResponse.ok) {
+                        const updatedData = await updatedResponse.json();
+                        setDatas(updatedData); // Update the state with the new data
+                    }
 
-            fetch(`http://localhost:5000/pasent/${searchData._id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data: Prediction, doctor: user.displayName }),
-            })
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Your work has been done',
-                showConfirmButton: false,
-                timer: 1500
-            })
 
-
+    
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been done',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setPrediction('')
+                } else {
+                    console.error('Failed to update prediction');
+                }
+            } catch (error) {
+                console.error('Error updating prediction:', error);
+            }
         } else {
             console.error('Invalid searchData:', searchData);
         }
     };
-
+    
 
     // --------------------------- Make a prediction---------------
 
@@ -91,7 +117,7 @@ const Doctor = () => {
     // ---------------------------- test area ---------------------
     const [testSelect, setTestSelect] = useState()
     useEffect(() => {
-        fetch('http://localhost:5000/addTest')
+        fetch('https://hospital-managment-server.vercel.app/addTest')
             .then((res) => res.json())
             .then((data) => setTestSelect(data));
     }, [])
@@ -123,7 +149,7 @@ const Doctor = () => {
 
     const updateTests = async (event) => {
         event.preventDefault();
-
+    
         const formattedTests = Object.values(selectedTests)
             .filter(test => test !== null)
             .map(test => ({
@@ -132,35 +158,43 @@ const Doctor = () => {
                 inputValue: test.inputValue,
                 doctor: user?.displayName,
             }));
-
-
+    
         if (confirm) {
             try {
-                const response = await fetch(`http://localhost:5000/tests/${searchData._id}`, {
+                const response = await fetch(`https://hospital-managment-server.vercel.app/tests/${searchData._id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-
                     },
                     body: JSON.stringify(formattedTests),
                 });
+    
                 if (response.ok) {
+                    const updatedResponse = await fetch('https://hospital-managment-server.vercel.app/pasent');
+                    if (updatedResponse.ok) {
+                        const updatedData = await updatedResponse.json();
+                        setDatas(updatedData);
+                    }
                     Swal.fire({
-                        title: "Good job!",
-                        text: "You clicked the button!",
-                        icon: "success"
-                    });
-                    window.location.reload();
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                      window.location.reload();
+                    
+                } else {
+                    console.error('Failed to update tests');
                 }
-
-                // Handle response as needed
             } catch (error) {
-                // Handle error
+                console.error('Error updating tests:', error);
             }
         } else {
             // Handle cancellation or do nothing
         }
     };
+    
 
     // ------------------------ Operation Area --------------------
 
@@ -177,7 +211,7 @@ const Doctor = () => {
         };
     
         try {
-            const response = await fetch(`http://localhost:5000/opration/${searchData._id}`, {
+            const response = await fetch(`https://hospital-managment-server.vercel.app/opration/${searchData._id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -229,20 +263,18 @@ const Doctor = () => {
 
 
             <div>
-                <div className="navbar bg-green-400">
+                <div className="navbar bg-h-14 bg-gradient-to-r from-cyan-500 to-blue-500">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost lg:hidden">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                          
                             </label>
-
+                            
 
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
 
-                                <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Notic</Link>
-
-                                <Link to='/PatientReport' className='hover:text-white hover:bg-pink-600  p-2 rounded'>My Account</Link>
-
+                         
                                 {/* ----------------- search Bar--------------------- */}
 
                                 <form className='flex items-center' onSubmit={search}>
@@ -271,9 +303,6 @@ const Doctor = () => {
 
                             <div className='flex gap-5 font-bold'>
 
-                                <Link to='/' className='hover:text-white hover:bg-pink-600  p-2 rounded'>Notic</Link>
-
-                                <Link to='/PatientReport' className='hover:text-white hover:bg-pink-600  p-2 rounded'>My Account</Link>
 
                                 {/* ----------------- search Bar--------------------- */}
 
@@ -298,8 +327,10 @@ const Doctor = () => {
 
                         </ul>
                     </div>
+
                     <div className="navbar-end">
-                        <a className="btn">Button</a>
+                    <p className='font-bold px-5'>Doctor Area</p>
+                        <a className="btn">Action</a>
                     </div>
                 </div>
             </div>

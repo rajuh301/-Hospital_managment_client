@@ -8,7 +8,7 @@ const RegRequisition = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/requisition')
+            fetch('https://hospital-managment-server.vercel.app/requisition')
                 .then((res) => res.json())
                 .then((data) => setRequisition(data))
                 .catch((error) => {
@@ -29,7 +29,7 @@ const RegRequisition = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
+        fetch('https://hospital-managment-server.vercel.app/pasent')
             .then((res) => res.json())
             .then((data) => setDatas(data));
     }, []);
@@ -48,7 +48,7 @@ const RegRequisition = () => {
     // --------------------------- add test charge ------------------------
     const [testMany, setTestMany] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/testCharge')
+        fetch('https://hospital-managment-server.vercel.app/testCharge')
             .then((res) => res.json())
             .then((data) => setTestMany(data));
     }, []);
@@ -65,7 +65,7 @@ const RegRequisition = () => {
 
     const [cashData, setCashData] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/cashout')
+        fetch('https://hospital-managment-server.vercel.app/cashout')
             .then((res) => res.json())
             .then((data) => setCashData(data));
     }, []);
@@ -83,7 +83,13 @@ const RegRequisition = () => {
 
     const showData = sum - sum2
 
-    const showDataUpdate = showData + sumTest
+    let sumOperation = datas
+        .flatMap(item => item?.operation?.map(op => parseInt(op.price)))
+        .filter(value => !isNaN(value))
+        .reduce((acc, val) => acc + val, 0);
+    
+
+    const showDataUpdate = showData + sumTest + sumOperation
 
 
     // ---------------------------------------- Account Section ------------------------
@@ -96,7 +102,7 @@ const RegRequisition = () => {
         const empoloyEmail = user?.email;
         const employName = user?.displayName;
 
-        const url = 'http://localhost:5000/cashout';
+        const url = 'https://hospital-managment-server.vercel.app/cashout';
 
         const dataToSend = {
             empoloyEmail: empoloyEmail,
@@ -170,7 +176,7 @@ const RegRequisition = () => {
             status: 'done',
         };
 
-        fetch(`http://localhost:5000/requisition/${_id}`, {
+        fetch(`https://hospital-managment-server.vercel.app/requisition/${_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

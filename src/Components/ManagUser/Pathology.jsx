@@ -8,7 +8,7 @@ const Pathology = () => {
     const [patientId, setPatientId] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
+        fetch('https://hospital-managment-server.vercel.app/pasent')
             .then((res) => res.json())
             .then((data) => setDatas(data));
     }, []);
@@ -41,7 +41,7 @@ const Pathology = () => {
             const reportText = modalText;
 
             if (reportIdToUpdate && reportText && index !== undefined) {
-                const response = await fetch(`http://localhost:5000/updateTest/${reportIdToUpdate}/${index}`, {
+                const response = await fetch(`https://hospital-managment-server.vercel.app/updateTest/${reportIdToUpdate}/${index}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const Pathology = () => {
             {/* -------------------- Navbar-------------------------- */}
 
             <div>
-                <div className="navbar bg-green-400">
+                <div className="navbar bg-h-14 bg-gradient-to-r from-cyan-500 to-blue-500">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -153,7 +153,8 @@ const Pathology = () => {
                         </ul>
                     </div>
                     <div className="navbar-end">
-                        <a className="btn">Button</a>
+                    <p className='font-bold px-5'>Pathology Area</p>
+                        <a className="btn">Action</a>
                     </div>
                 </div>
             </div>

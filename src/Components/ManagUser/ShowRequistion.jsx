@@ -10,7 +10,7 @@ const ShowRequistion = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:5000/requisition')
+            fetch('https://hospital-managment-server.vercel.app/requisition')
                 .then((res) => res.json())
                 .then((data) => setRequisitions(data))
                 .catch((error) => {

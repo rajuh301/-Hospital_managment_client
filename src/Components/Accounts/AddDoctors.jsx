@@ -31,7 +31,7 @@ const AddDoctors = () => {
           });
     
           if (result.isConfirmed) {
-            const response = await fetch('http://localhost:5000/addDoctor', {
+            const response = await fetch('https://hospital-managment-server.vercel.app/addDoctor', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

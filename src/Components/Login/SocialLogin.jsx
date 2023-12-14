@@ -18,7 +18,7 @@ const SocialLogin = () => {
 
                         const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL, roal: 'user'  }
 
-                        fetch('http://localhost:5000/users', {
+                        fetch('https://hospital-managment-server.vercel.app/users', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/json'

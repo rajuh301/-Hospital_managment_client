@@ -3,11 +3,23 @@ import React from 'react';
 const PatientsRegister = () => {
     const [download, setDownload] = useState('')
 
+
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
-            .then(res => res.json())
-            .then(data => setDownload(data))
-    }, [])
+        const fetchData = () => {
+            fetch('https://hospital-managment-server.vercel.app/pasent')
+                .then((res) => res.json())
+                .then((data) => setDownload(data))
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        fetchData();
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
+
+
 
 
     console.log(download[download.length - 1]);

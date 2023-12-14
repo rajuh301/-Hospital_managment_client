@@ -12,7 +12,7 @@ const Phermacy = () => {
     const [patientId, setPatientId] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/pasent')
+        fetch('https://hospital-managment-server.vercel.app/pasent')
             .then((res) => res.json())
             .then((data) => setDatas(data));
     }, []);
@@ -47,7 +47,7 @@ const Phermacy = () => {
 
 
             <div>
-                <div className="navbar bg-green-400">
+                <div className="navbar bg-h-14 bg-gradient-to-r from-cyan-500 to-blue-500">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -117,7 +117,8 @@ const Phermacy = () => {
                         </ul>
                     </div>
                     <div className="navbar-end">
-                        <a className="btn">Button</a>
+                    <p className='font-bold px-5'>Pharmacy Area</p>
+                        <a className="btn">Action</a>
                     </div>
                 </div>
             </div>

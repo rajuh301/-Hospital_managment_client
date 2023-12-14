@@ -11,7 +11,7 @@ const AddTest = () => {
 
         if (testName && price && description) {
             try {
-                const response = await fetch('http://localhost:5000/addTest', {
+                const response = await fetch('https://hospital-managment-server.vercel.app/addTest', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
